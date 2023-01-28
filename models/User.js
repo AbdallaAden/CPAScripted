@@ -1,0 +1,17 @@
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+// User schema
+const userSchema = new Schema({
+      //userId: {type: Number,required: true,unique: true,autoIncrement: true},
+      firstName: {type: String,required: true,max: 20},
+      lastName: {type: String,required: true,max: 20},
+      password: {type: String,required: true,max: 20},
+      email: {type: String,required: true,max: 30},
+      /*role: {type: String,required: true,max: 10}*/      
+      /*semesterId: {type: Number,ref: 'Semester',required: true},*/
+      /*courseId: {type: Number,ref: 'Course',required: true},*/
+});
+
+const User = mongoose.model('User', userSchema);
+module.exports = User;
