@@ -8,7 +8,7 @@ router.get("/",postService.getAllPosts)
 
 router.get('/:id',postService.getPost)
 
-//router.put('/:id',postService.updatepost)
+router.put('/:id',postService.updatePost)
 
 
 

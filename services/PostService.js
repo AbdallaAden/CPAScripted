@@ -3,7 +3,7 @@ const postModel = require('../models/Post')
 exports.createPost = (req, res) => {
 
     const post = new postModel(req.body)
-
+ console.log(post)
     post.save()
         .then((newpost) => {
             res.json({
@@ -12,8 +12,9 @@ exports.createPost = (req, res) => {
             })
         })
         .catch(err => {
+            //console.log('error in create post')
             res.status(500).json({
-                message: err
+               message: err
             })
 
         })
@@ -83,7 +84,7 @@ exports.getPost = (req, res) => {
 
 }
 
-/*exports.updatePost = (req, res) => {
+exports.updatePost = (req, res) => {
     postModel.findByIdAndUpdate(req.params.id, req.body, {
             new: true
         })
@@ -106,4 +107,4 @@ exports.getPost = (req, res) => {
             })
 
         })
-}*/
+}
