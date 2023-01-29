@@ -6,7 +6,7 @@ const PostSchema = require('./Post')
 const userSchema = new Schema({
       //userId: {type: Number,required: true,unique: true,autoIncrement: true},
       //_id: Schema.Types.ObjectId,
-      firstName: {type: String,required: true,max: 20},
+      firstName: {type: String,/*required: true,*/max: 20},
       lastName: {type: String,required: true,max: 20},
       password: {type: String,required: true,max: 20},
       email: {type: String,required: true,max: 30},
