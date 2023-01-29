@@ -7,7 +7,8 @@ const userSchema = new Schema({
       firstName: {type: String,required: true,max: 20},
       lastName: {type: String,required: true,max: 20},
       password: {type: String,required: true,max: 20},
-      email: {type: String,required: true,max: 30},
+      email: {type: String,required: true,max: 30}
+      //postId: {type: String,ref: 'Post',required: true}
       /*role: {type: String,required: true,max: 10}*/      
       /*semesterId: {type: Number,ref: 'Semester',required: true},*/
       /*courseId: {type: Number,ref: 'Course',required: true},*/
