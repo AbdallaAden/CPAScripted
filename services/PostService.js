@@ -3,7 +3,7 @@ const postModel = require('../models/Post')
 exports.createPost = (req, res) => {
 
     const post = new postModel(req.body)
- console.log(post)
+// console.log(post)
     post.save()
         .then((newpost) => {
             res.json({
