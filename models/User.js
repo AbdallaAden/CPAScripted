@@ -5,7 +5,7 @@ const PostSchema = require('./Post')
 // User schema
 const userSchema = new Schema({
       
-      firstName: {type: String,/*required: true,*/max: 20},
+      firstName: {type: String,required: true,max: 20},
       lastName: {type: String,required: true,max: 20},
       password: {type: String,required: true,max: 20},
       email: {type: String,required: true,max: 30},
