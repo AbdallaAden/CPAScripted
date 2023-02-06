@@ -9,8 +9,8 @@ const postSchema = new Schema({
     title: {type: String,required: true,max: 25},
     content: {type: String,required: true,max: 150},
     likes: {type: Number},
-    created: {type: Date,default: Date.now()}
-    //comments:[{type : Schema.Types.ObjectId, ref: 'Comment'}]
+    created: {type: Date,default: Date.now()},
+    comments:[{type : Schema.Types.ObjectId, ref: 'Comment'}]
 });
 
 const Post = mongoose.model('Post', postSchema);

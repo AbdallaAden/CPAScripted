@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: 'config/keys.env' });
 const userController = require('./controllers/userController')
 const postController = require('./controllers/postController')
+const commentController = require('./controllers/commentController')
 
 const app = express();
 app.use(express.json())
 app.use("/users",userController)
 app.use("/posts",postController)
+app.use("/comments",commentController)
 
 
 app.listen(process.env.PORT, ()=>{
