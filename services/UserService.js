@@ -18,6 +18,25 @@ exports.createUser = (req, res) => {
 
         })
 }
+exports.getPostsByUser = (req, res) => {
+    const userId = req.params.userId;
+
+    userModel.findOne({ _id: userId })
+        .populate('posts')
+        .then(user => {
+            res.json({
+                message: "List of all posts for user",
+                data: user.posts,
+                totalposts: user.posts.length
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: err
+            })
+        })
+}
+
 
 exports.removeUser = (req, res) => {
     userModel.findByIdAndRemove(req.params.id)
