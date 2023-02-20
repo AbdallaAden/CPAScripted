@@ -1,4 +1,5 @@
 const userModel = require('../models/User')
+const courseModel = require('../models/Courses')
 
 exports.createUser = (req, res) => {
 
@@ -16,24 +17,6 @@ exports.createUser = (req, res) => {
                 message: err
             })
 
-        })
-}
-exports.getPostsByUser = (req, res) => {
-    const userId = req.params.userId;
-
-    userModel.findOne({ _id: userId })
-        .populate('posts')
-        .then(user => {
-            res.json({
-                message: "List of all posts for user",
-                data: user.posts,
-                totalposts: user.posts.length
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                message: err
-            })
         })
 }
 
@@ -126,3 +109,19 @@ exports.updateUser = (req, res) => {
 
         })
 }
+exports.getAllCourses = (req, res) => {
+    const userId = req.params.userId;
+    courseModel.find({ userId: userId })
+      .then(courses => {
+        res.json({
+          message: "List of all courses",
+          data: courses,
+          totalCourses: courses.length
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: err
+        });
+      });
+  };

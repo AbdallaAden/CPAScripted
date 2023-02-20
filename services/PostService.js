@@ -1,14 +1,26 @@
 const postModel = require('../models/Post')
+const userModel = require('../models/User')
 
 exports.createPost = (req, res) => {
 
     const post = new postModel(req.body)
 // console.log(post)
+    //userModel.push(post)
     post.save()
-        .then((newpost) => {
-            res.json({
-                message: "The post was successfully created",
-                data: newpost
+        .then((newPost) => {
+            // push the new post's ID to the user's posts array
+            userModel.findByIdAndUpdate(req.body.userId, { $push: { posts: newPost._id } })
+            .then(() => {
+                res.json({
+                    message: "The post was successfully created and pushed to the user",
+                    data: newPost
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    message: "Failed to push post to user",
+                    error: err
+                })
             })
         })
         .catch(err => {
@@ -107,4 +119,42 @@ exports.updatePost = (req, res) => {
             })
 
         })
+}
+exports.getPostsByUser = async (req, res) => {
+    const userId = req.params.id;
+    //console.log(userId);
+    try {
+      const userPosts = await postModel.find({ user_id: userId });
+      if (userPosts.length > 0) {
+        res.json({
+          message: `Posts by user with id ${userId}`,
+          data: userPosts,
+        });
+      } else {
+        res.status(404).json({
+          message: `No posts found for user with id ${userId}`,
+        });
+      }
+    } catch (err) {
+      res.status(404).json({
+        message: err,
+      });
+    }
+
+//     userModel.findOne({ _id: userId })
+//         .populate('posts')
+//         .then(user => {
+//             res.json({
+//                 message: "List of all posts for user",
+//                 data: user.posts,
+//                 totalposts: user.posts.length
+//             })
+//         })
+//         .catch(err => {
+//             res.status(500).json({
+//                 message: err
+//             })
+//         })
+//     console.log('get posts by user')
+// 
 }

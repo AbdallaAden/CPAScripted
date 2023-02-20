@@ -4,12 +4,13 @@ const userService = require('../services/UserService')
 const userValidation = require('../Middleware/userValidation')
 
 router.get('/',userService.getAllUsers)
+router.get('/courses/', userService.getAllCourses)
 
-router.get('/:id',userService.getUser,)
+router.get('/:id',userService.getUser)
 
 router.put('/:id',userService.updateUser)
 
-router.post('/',userValidation.CreateUserValidation,userService.createUser)
+//router.post('/',userValidation.CreateUserValidation,userService.createUser)
 
 router.delete('/:id',userService.removeUser)
 

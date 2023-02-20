@@ -1,30 +1,30 @@
-exports.CreateUserValidation=(req,res,next)=>{
+const userModel = require("../models/User");
+const Joi = require("@hapi/joi");
 
-    const errors = [];
-    if(!req.body.firstName ||  req.body.firstName === "")
-    {
-        errors.push( {field : "firstName", message :"You must provide a first name"})    
+const schema = Joi.object({
+  firstName: Joi.string().max(20).required(),
+  lastName: Joi.string().max(20).required(),
+  password: Joi.string().min(6).required(),
+  email: Joi.string().min(6).required().email(),
+});
+
+exports.CreateUserValidation = (req, res, next) => {
+  const { error } = schema.validate(req.body);
+
+    if (error) {     
+      res.status(400).json({
+        message: error.details[0].message,
+        //data: error.details[0].message,
+      });
+    } else {
+      userModel.findOne({ email: req.body.email }).then((user) => {
+        if (user) {
+          return res.status(400).json({ 
+            email: "A user with that Email already exists" 
+        });
+        } else {
+          next();
+        }
+      });
     }
-    if(!req.body.lastName ||  req.body.lastName === "")
-    {
-        errors.push( {field : "lastName", message :"You must provide a last name"})    
-    }
-    if(!req.body.email ||  req.body.email === "")
-    {
-        errors.push( {field : "email", message :"You must provide an email address"})    
-    }
-    if(!req.body.password ||  req.body.password === "")
-    {
-        errors.push( {field : "password", message :"You must provide a password"})    
-    }
-    
-    //if there are errors 
-    if(errors.length > 0){
-        res.status(400).json({
-        message : " You did not successfully create a customer",
-        data : errors  
-        })
-    }else{
-        next(); 
-    }
-}
+};
