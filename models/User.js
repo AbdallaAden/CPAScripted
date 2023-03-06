@@ -7,8 +7,8 @@ const { object } = require("@hapi/joi");
 // User schema
 const userSchema = new Schema({
       
-      firstName: {type: String,required: true,max: 20},
-      lastName: {type: String,required: true,max: 20},
+      username: {type: String,required: true,max: 20},
+      //lastName: {type: String,required: true,max: 20},
       password: {type: String,required: true,max: 20},
       email: {type: String,required: true,max: 30},
       posts: [{type: Schema.Types.ObjectId,ref: 'Post'}],

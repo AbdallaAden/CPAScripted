@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require('mongoose');
+const cors = require('cors')
 require('dotenv').config({ path: 'config/keys.env' });
 const userController = require('./controllers/userController')
 const postController = require('./controllers/postController')
@@ -9,8 +10,11 @@ const loginController = require('./controllers/loginController')
 const logoutController = require('./controllers/logoutController')
 
 
+
+
 const app = express();
 app.use(express.json())
+app.use(cors()) 
 app.use("/users",userController)
 app.use("/posts",postController)
 app.use("/comments",commentController)
