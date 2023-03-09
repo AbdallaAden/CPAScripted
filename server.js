@@ -8,6 +8,8 @@ const commentController = require('./controllers/commentController')
 const registerController = require('./controllers/registerController')
 const loginController = require('./controllers/loginController')
 const logoutController = require('./controllers/logoutController')
+const courseController = require('./controllers/courseController')
+
 
 
 
@@ -21,6 +23,7 @@ app.use("/comments",commentController)
 app.use("/register",registerController)
 app.use("/login",loginController)
 app.use("/logout",logoutController)
+app.use("/courses",courseController)
 
 
 app.listen(process.env.PORT, ()=>{

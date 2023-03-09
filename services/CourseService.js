@@ -1,14 +1,27 @@
 const courseModel = require('../models/Courses')
 
-exports.createCourse = (req, res) => {
+exports.createCourses =  (req, res) => {
+    try {
+      const courses = req.body;
+      const createdCourses = courseModel.insertMany(courses);
+      res.status(201).json({
+        message: "Courses created successfully",
+        data: createdCourses
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: err.message
+      });
+    }
+  };
 
-    const Course = new courseModel(req.body)
-
-    Course.save()
-        .then((newCourse) => {
+  exports.getAllCourses = (req, res) => {
+    courseModel.find()
+        .then(courses => {
             res.json({
-                message: "The Course was successfully created",
-                data: newCourse
+                message: "List of all the courses",
+                data: courses,
+                totalcourses: courses.length
             })
         })
         .catch(err => {
@@ -18,3 +31,4 @@ exports.createCourse = (req, res) => {
 
         })
 }
+  

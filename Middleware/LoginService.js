@@ -33,7 +33,7 @@ exports.validateLogin = async (req, res) => {
                 }
 
                 else{
-                const token = JWT.sign({_id: user._id},process.env.TOKEN_SECRET, {expiresIn: "8h"})
+                const token = JWT.sign({_id: user._id},process.env.TOKEN_SECRET, {expiresIn: "4h"})
                 res.header('auth-token',token).send(token)
 
                 let oldTokens = user.tokens || []
