@@ -14,8 +14,6 @@ const userSchema = new Schema({
       posts: [{type: Schema.Types.ObjectId,ref: 'Post'}],
       courses: [{type: Schema.Types.ObjectId,ref: 'Course'}],
       tokens: [{type : Object}]
-      //userId: {type: Number,required: true,unique: true,autoIncrement: true},
-      //_id: Schema.Types.ObjectId,
       /*role: {type: String,required: true,max: 10}*/      
       /*semesterId: {type: Number,ref: 'Semester',required: true},*/
       
