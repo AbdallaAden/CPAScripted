@@ -28,7 +28,8 @@ exports.CreateUserValidation = (req, res, next) => {
           return res.status(400).json( 
             "Only accepting accounts from myseneca.ca" 
          );
-        } else {
+       } 
+       else {
           next();
         }
       });

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const PostSchema = require('./Post')
 const bcrypt = require('bcrypt');
-const { object } = require("@hapi/joi");
+const { object, bool, boolean } = require("@hapi/joi");
 
 // User schema
 const userSchema = new Schema({
@@ -13,7 +13,8 @@ const userSchema = new Schema({
       email: {type: String,required: true,max: 30},
       posts: [{type: Schema.Types.ObjectId,ref: 'Post'}],
       courses: [{type: Schema.Types.ObjectId,ref: 'Course'}],
-      tokens: [{type : Object}]
+      tokens: [{type : Object}],
+      confirmed:{type : Boolean, default: false}
       /*role: {type: String,required: true,max: 10}*/      
       /*semesterId: {type: Number,ref: 'Semester',required: true},*/
       
@@ -30,6 +31,10 @@ userSchema.pre('save',async function(next){
         next(err)
       }
       })
+
+userSchema.pre('save', async function(next) {
+
+})
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

@@ -1,5 +1,8 @@
 const userModel = require('../models/User')
 const courseModel = require('../models/Courses')
+require('dotenv').config({ path: '../config/keys.env' });
+const nodemailer = require('nodemailer');
+
 
 exports.createUser = (req, res) => {
 
@@ -7,10 +10,11 @@ exports.createUser = (req, res) => {
 
     user.save()
         .then((newUser) => {
-            res.json({
-                message: "The User was successfully created",
-                data: newUser
-            })
+            // res.json({
+            //     message: "The User was successfully created",
+            //     data: newUser
+            // })
+            this.confirmUser(user);
         })
         .catch(err => {
             res.status(500).json({
@@ -19,6 +23,61 @@ exports.createUser = (req, res) => {
 
         })
 }
+
+exports.confirmUser = (tuser) => {
+    userModel.findById(tuser._id)
+        .then(user => {
+            if (user) {
+
+
+                const transporter = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port: 587,
+                    secure: false,
+                    auth: {
+                      user: process.env.EMAIL,
+                      pass: process.env.APPPASS
+                    },
+
+                  });
+                  console.log(transporter)
+                
+                  const message = {
+                    from: 'process.env.EMAIL',
+                    to: user.email,
+                    subject: 'Confirmation to CPAScripted',
+                    text: `Dear ${user.username},\n\nThank you for signing up to CPAScripted.\n\nClick the link below to get confirmed\n\n <a>LINK<a>`
+                  };
+
+                
+                  // Use the transporter to send the email
+                  transporter.sendMail(message, function(err, info) {
+                    if (err) {
+                      console.error('Error sending confirmation email:', err);
+                    } else {
+                      console.log('Confirmation email sent:', info);
+                    }
+                  });
+
+
+                // res.json({
+                //     message: `User with id ${req.params.id}`,
+                //     data: user
+                // })
+
+                console.log("Email sent")
+            } else {
+                // res.status(404).json({
+                //     message: `No user with id ${req.params.id}`
+                // })
+                console.log("No user found")
+            }
+        })
+        .catch(err => {
+            console.log(err)
+
+        })
+    }
 
 
 exports.removeUser = (req, res) => {
@@ -213,6 +272,8 @@ exports.updateUser = (req, res) => {
       res.status(500).json({ message: "Internal Server Error" });
     }
   };
+  
+
   
   
   
