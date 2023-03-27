@@ -4,8 +4,8 @@ const userService = require('../services/UserService')
 const userValidation = require('../Middleware/userValidation')
 const userModel = require('../models/User')
 
-router.get('/', async (req, res)  => {
-    if(req.query.user){
+router.get('/',userService.getAllUsers) /*{
+   if(req.query.user){
     console.log(req.query.user)   
     const token = req.query.user;
   userModel.findOne({ "tokens.token": token })
@@ -38,8 +38,8 @@ try {
 } catch (err) {
   res.status(500).json(err);
 }
-
-  })
+0
+  })*/
 //router.get('/courses/', userService.getAllCourses)
 
 router.get('/:id',userService.getUser)
