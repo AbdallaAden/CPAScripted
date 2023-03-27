@@ -4,7 +4,7 @@ const userModel = require('../models/User')
 exports.createPost = (req, res) => {
 
     const post = new postModel(req.body)
-// console.log(post)
+ console.log(req.body.content)
     //userModel.push(post)
     post.save()
         .then((newPost) => {
@@ -157,4 +157,23 @@ exports.getPostsByUser = async (req, res) => {
 //         })
 //     console.log('get posts by user')
 // 
+
+exports.getByUsername= async (req, res) => {
+   // const userId = req.params.id;
+    try {
+
+         const user = await userModel.findOne({ username: req.params.username });
+        
+       const posts = await postModel.find({ userId: user._id });
+        
+         res.status(200).json(posts);
+        
+         } catch (err) {
+        
+         res.status(500).json(err);
+        
+         }
+        
+    };
+
 }

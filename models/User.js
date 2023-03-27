@@ -14,7 +14,9 @@ const userSchema = new Schema({
       posts: [{type: Schema.Types.ObjectId,ref: 'Post'}],
       courses: [{type: Schema.Types.ObjectId,ref: 'Course'}],
       tokens: [{type : Object}],
-      confirmed:{type : Boolean, default: false}
+      confirmed:{type : Boolean, default: false},
+      followers:[{type: Schema.Types.ObjectId,ref: 'User'}],
+      followings:[{type: Schema.Types.ObjectId,ref: 'User'}]
       /*role: {type: String,required: true,max: 10}*/      
       /*semesterId: {type: Number,ref: 'Semester',required: true},*/
       

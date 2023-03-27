@@ -143,29 +143,27 @@ exports.getUser = (req, res) => {
         })
 
 }
-exports.getByToken = (req, res) => {
-    // userModel.findById(req.params.id)
-    //     .then(user => {
-
-    //         if (user) {
-    //             res.json({
-    //                 message: `User with id ${req.params.id}`,
-    //                 data: user
-    //             })
-    //         } else {
-    //             res.status(404).json({
-    //                 message: `No user with id ${req.params.id}`
-    //             })
-    //         }
-    //     })
-    //     .catch(err => {
-    //         res.status(404).json({
-    //             message: err
-    //         })
-
-    //     })
-console.log(' get by token' , req.token.token)
-}
+exports.getUserByToken = (req, res) => {
+  const token = req.query.user;
+  userModel.findOne({ "tokens.token": token })
+    .then(user => {
+      if (user) {
+        res.json({
+          message: `User with token ${token}`,
+          data: user
+        });
+      } else {
+        res.status(404).json({
+          message: `No user with token ${token}`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err
+      });
+    });
+};
 
 exports.updateUser = (req, res) => {
     userModel.findByIdAndUpdate(req.params.id, req.body, {
