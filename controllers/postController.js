@@ -12,7 +12,7 @@ router.get('/:id',postService.getPost)
 router.get('/user/:id',postService.getPostsByUser),
 
 router.put('/:id',postService.updatePost)
-router.get('/profile/:username', postService.getByUsername)
+//router.get('/profile/:username', postService.getByUsername)
 
 
 router.delete('/:id',postService.removePost)
