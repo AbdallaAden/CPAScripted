@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const commentService = require('../services/commentService')
+const commentService = require('../services/CommentService')
 
 
 router.post("/",commentService.createComment)

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const postService = require('../services/postService')
+const postService = require('../services/PostService')
 const auth = require('../Middleware/verifyToken')
 //const userService = require('../services/UserService')
 
