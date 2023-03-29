@@ -2,13 +2,19 @@ const postModel = require('../models/Post')
 const userModel = require('../models/User')
 
 exports.createPost = (req, res) => {
-
-    const post = new postModel(req.body)
- console.log(req.body.content)
+console.log('made it to create post route', req.body)
+    const post = new postModel({
+        user_id:req.body.userId,
+        content: req.body.desc,
+        course_id:req.body.course
+    })
+ console.log(req.body.desc)
+ console.log('POST :  ',post)
+ //console.log('COURSE PARAMS : ', req.body.course)
     //userModel.push(post)
     post.save()
         .then((newPost) => {
-            // push the new post's ID to the user's posts array
+            console.log(newPost._id)
             userModel.findByIdAndUpdate(req.body.userId, { $push: { posts: newPost._id } })
             .then(() => {
                 res.json({
@@ -140,24 +146,28 @@ exports.getPostsByUser = async (req, res) => {
         message: err,
       });
     }
-
-//     userModel.findOne({ _id: userId })
-//         .populate('posts')
-//         .then(user => {
-//             res.json({
-//                 message: "List of all posts for user",
-//                 data: user.posts,
-//                 totalposts: user.posts.length
-//             })
-//         })
-//         .catch(err => {
-//             res.status(500).json({
-//                 message: err
-//             })
-//         })
-//     console.log('get posts by user')
-// 
-
+}
+exports.getPostsByCourse = async (req, res) => {
+    const courseId = req.params.id;
+    console.log(courseId, ' courseID passed');
+    try {
+      const coursePosts = await postModel.find({ course_id: courseId });
+      if (coursePosts.length > 0) {
+        res.json({
+          message: `Posts by course with id ${courseId}`,
+          data: coursePosts,
+        });
+      } else {
+        res.status(404).json({
+          message: `No posts found for course with id ${courseId}`,
+        });
+      }
+    } catch (err) {
+      res.status(404).json({
+        message: err,
+      });
+    }
+}
 exports.getByUsername= async (req, res) => {
    // const userId = req.params.id;
     try {
@@ -176,4 +186,3 @@ exports.getByUsername= async (req, res) => {
         
     };
 
-}
