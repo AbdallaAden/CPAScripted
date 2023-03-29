@@ -31,4 +31,28 @@ exports.createCourses =  (req, res) => {
 
         })
 }
+
+exports.getCourse = (req, res) => {
+  console.log('course id passed : ',req.params.id)
+  courseModel.findOne({'code' : req.params.id})
+  .then(course => {
+
+      if (course) {
+          res.json({
+              message: `course with id ${req.params.id}`,
+              data: course
+          })
+      } else {
+          res.status(404).json({
+              message: `No course with id ${req.params.id}`
+          })
+      }
+  })
+  .catch(err => {
+      res.status(404).json({
+          message: err
+      })
+
+  })
+}
   

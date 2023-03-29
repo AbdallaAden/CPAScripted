@@ -206,10 +206,10 @@ exports.updateUser = (req, res) => {
         });
       });
   };*/
-  exports.getAllUserCoursesByToken = (req, res) => {
-    const token = req.query.token;
-    console.log(token)
-    userModel.findOne({ token: token })
+  exports.getAllUserCoursesById = (req, res) => {
+    const user = req.params.id;
+    console.log(user)
+    userModel.findOne({ _id: user })
       .populate('courses')
       .then(user => {
         res.json({
@@ -228,10 +228,11 @@ exports.updateUser = (req, res) => {
       const userId = req.params.id;
       const userToken = req.body.user;
       const courses = req.body.courseIds;
+      console.log('userId ' + userId + 'userToken '+ userToken )
   
       // Find user document based on token
-      const user = await userModel.findOne({ "tokens.token": userToken });
-  
+      const user = await userModel.findOne({ "_id": userToken });
+  console.log(user)
       // Update user document with new courses
       await userModel.findByIdAndUpdate(user._id, {
         $addToSet: { courses: courses },
@@ -262,7 +263,7 @@ exports.updateUser = (req, res) => {
       // Return success response
       res.json({
         message: "Successfully subscribed to courses",
-        data: courses,
+        courses: courses,
         user: user,
       });
     } catch (err) {
@@ -271,7 +272,23 @@ exports.updateUser = (req, res) => {
     }
   };
   
-
+  exports.getAllUserFriends = (req, res) => {
+   
+    console.log('getting all friends for ', req.params.id)
+    // userModel.findOne({ _id: user })
+    //   .populate('courses')
+    //   .then(user => {
+    //     res.json({
+    //      message: "List of all courses",
+    //       data: user.courses,
+    //       totalCourses: user.courses.length});
+    //   })
+    //   .catch(err => {
+    //     res.status(500).json({
+    //       message: err
+    //     });
+    //   });
+  };
   
   
   

@@ -43,7 +43,7 @@ try {
 //router.get('/courses/', userService.getAllCourses)
 
 router.get('/:id',userService.getUser)
-//router.get('/me',userService.getByToken)
+router.get('/course/:id',userService.getAllUserCoursesById)
 //router.get('/courses',userService.getByToken)
 
 router.put('/:id',userService.updateUser)
@@ -52,5 +52,6 @@ router.put('/:id',userService.updateUser)
 
 router.delete('/:id',userService.removeUser)
 router.post('/subscribe',userService.subscribeToCourse)
+router.get('/friends/:id',userService.getAllUserFriends)
 
 module.exports = router
