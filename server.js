@@ -19,7 +19,9 @@ const courseController = require('./controllers/courseController')
 
 const app = express();
 app.use(express.json())
-app.use(cors()) 
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true})) 
 app.use("/users",userController)
 app.use("/posts",postController)
 app.use("/comments",commentController)

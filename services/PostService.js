@@ -6,7 +6,8 @@ console.log('made it to create post route', req.body)
     const post = new postModel({
         user_id:req.body.userId,
         content: req.body.desc,
-        course_id:req.body.course
+        course_id:req.body.course,
+        title:req.body.title
     })
  console.log(req.body.desc)
  console.log('POST :  ',post)

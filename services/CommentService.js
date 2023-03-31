@@ -1,8 +1,10 @@
 const commentModel = require('../models/Comment')
+const PostModel = require('../models/Post')
 
-exports.createComment = (req, res) => {
+/*exports.createComment = (req, res) => {
 
     const comment = new commentModel(req.body)
+    const postId = req.params.postId;
 // console.log(comment)
     comment.save()
         .then((newComment) => {
@@ -18,7 +20,79 @@ exports.createComment = (req, res) => {
             })
 
         })
-}
+}*/
+exports.createComment = async (req, res) => {
+  try {
+    const { content, user_id, post_id, parent_id } = req.body;
+
+    if (!content) {
+      return res.status(400).json({ message: "Comment content is required" });
+    }
+
+    const comment = new commentModel({
+      content,
+      user_id,
+      post_id,
+      parent_id,
+    });
+
+    const savedComment = await comment.save();
+
+    if (!parent_id) {
+      // If the comment is not a reply to another comment, add it to the post's comment array
+      await PostModel.findByIdAndUpdate(post_id, {
+        $push: { comments: savedComment._id },
+      });
+    } else {
+      // If the comment is a reply to another comment, add it to the parent comment's replies array
+      await commentModel.findByIdAndUpdate(parent_id, {
+        $push: { replies: savedComment._id },
+      });
+    }
+
+    res.json({
+      message: "The comment was successfully created",
+      data: savedComment,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "An error occurred while creating the comment",
+      error,
+    });
+  }
+};
+
+exports.updatePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    if (!title && !content) {
+      return res.status(400).json({ message: "Title or content is required" });
+    }
+
+    const post = await PostModel.findByIdAndUpdate(
+      id,
+      { title, content },
+      { new: true }
+    );
+
+    res.json({
+      message: "The post was successfully updated",
+      data: post,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "An error occurred while updating the post",
+      error,
+    });
+  }
+};
+
+
+
 
 exports.removeComment = (req, res) => {
     commentModel.findByIdAndRemove(req.params.id)
